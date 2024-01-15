@@ -1,9 +1,11 @@
 from PySide6.QtWidgets import QMainWindow, QFileDialog
 from filtWindow_ui import Ui_MainWindow as Ui_FiltWin
+from filterSettingsWindow_ui import Ui_MainWindow as Ui_FilterSettings
 
 from myPlot import mainPlot
 
-""" class FilterWin(QMainWindow):
+"""
+class FilterWin(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.mainPlot = mainPlot(self)
@@ -55,6 +57,9 @@ class FilterWin(QMainWindow):
                 ),
             )
         )
+        self.ui.filterSettings_button.clicked.connect(
+            lambda: self.call("filter settings")
+        )
 
     def _get_sig_form(self):
         sigIndex = self.ui.signalType_cBox.currentIndex()
@@ -82,8 +87,8 @@ class FilterWin(QMainWindow):
         elif sigType == "uniform":
             params = (float(self.ui.ave_lineEdit.text()),)
         elif sigType == "file":
-            # params = QFileDialog.getOpenFileName(self)[0]
-            params = r"D:\code\signalProcess\2023信号与信息处理课程设计\实验数据文件\实验二三\SSVEP.mat"
+            params = QFileDialog.getOpenFileName(self)[0]
+            # params = r"D:\code\signalProcess\2023信号与信息处理课程设计\实验数据文件\实验二三\SSVEP.mat"
 
         return (sigType, (params))
 
@@ -94,3 +99,22 @@ class FilterWin(QMainWindow):
         if new_log:
             self.ui.log_plainTextEdit.clear()
         self.ui.log_plainTextEdit.appendPlainText(text)
+
+
+class FilterSettings(QMainWindow):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.call = None
+        
+        self.mainPlot = mainPlot(self)
+        self.initUI()
+
+    def initUI(self):
+        self.ui = Ui_FilterSettings()
+        self.ui.setupUi(self)
+
+        self.ui.plot_gLayout.addWidget(self.mainPlot.get_toolbar())
+        self.ui.plot_gLayout.addWidget(self.mainPlot.get_canvas())
+        
+    def set_call(self, func):
+        self.call = func

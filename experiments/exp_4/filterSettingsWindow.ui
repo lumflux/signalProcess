@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>filter settings</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,7">
+      <item>
+       <layout class="QVBoxLayout" name="params_vLayout">
+        <item>
+         <widget class="QComboBox" name="generateMode_cBox">
+          <item>
+           <property name="text">
+            <string>通过指标生成滤波器</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>通过参数生成滤波器</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="filterMode_cBox">
+          <item>
+           <property name="text">
+            <string>巴特沃斯</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>切比雪夫I型</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>切比雪夫II型</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>椭圆</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>矩形窗</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>汉宁窗</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>海明窗</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>布莱克曼窗</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>凯泽窗</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="filterType_cBox">
+          <item>
+           <property name="text">
+            <string>高通</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>低通</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>带通</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>带组</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,7">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Wp</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="wp_edit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,7">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Ws</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="ws_edit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,7">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Rp</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="rp_edit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="as_edit" stretch="1,7">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>As</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_2"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="1,7">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>N</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="n_edit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="1,7">
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Wn</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="wn_edit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,7">
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Fs</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_7"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="show_button">
+            <property name="text">
+             <string>预览</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="confirm_button">
+            <property name="text">
+             <string>确定</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QGridLayout" name="plot_gLayout"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

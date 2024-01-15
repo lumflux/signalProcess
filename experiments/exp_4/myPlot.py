@@ -40,7 +40,3 @@ class mainPlot:
     def clear(self):
         self.fig.clear()
         self.draw()
-
-
-if __name__ == "__main__":
-    pass

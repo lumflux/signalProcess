@@ -61,6 +61,8 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.signalType_cBox = QComboBox(self.centralwidget)
         self.signalType_cBox.addItem("")
         self.signalType_cBox.addItem("")
@@ -69,7 +71,17 @@ class Ui_MainWindow(object):
         self.signalType_cBox.addItem("")
         self.signalType_cBox.setObjectName(u"signalType_cBox")
 
-        self.verticalLayout.addWidget(self.signalType_cBox)
+        self.horizontalLayout_4.addWidget(self.signalType_cBox)
+
+        self.filterSettings_button = QPushButton(self.centralwidget)
+        self.filterSettings_button.setObjectName(u"filterSettings_button")
+
+        self.horizontalLayout_4.addWidget(self.filterSettings_button)
+
+        self.horizontalLayout_4.setStretch(0, 7)
+        self.horizontalLayout_4.setStretch(1, 4)
+
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -230,6 +242,7 @@ class Ui_MainWindow(object):
         self.signalType_cBox.setItemText(4, QCoreApplication.translate("MainWindow", u"\u6253\u5f00\u4fe1\u53f7\u6587\u4ef6", None))
 
         self.signalType_cBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u9009\u62e9\u4fe1\u53f7\u7c7b\u578b", None))
+        self.filterSettings_button.setText(QCoreApplication.translate("MainWindow", u"\u8bbe\u7f6e\u6ee4\u6ce2\u5668", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u5e45\u5ea6(A)", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u9891\u7387(f)", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"\u76f8\u4f4d(\u03c6)", None))
