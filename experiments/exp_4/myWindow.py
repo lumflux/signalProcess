@@ -105,6 +105,7 @@ class FilterSettings(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.call = None
+        self.filter = None
         
         self.mainPlot = mainPlot(self)
         self.initUI()
@@ -118,3 +119,6 @@ class FilterSettings(QMainWindow):
         
     def set_call(self, func):
         self.call = func
+        
+    def _send_filter(self):
+        self.call("confirm filter", self.filter)

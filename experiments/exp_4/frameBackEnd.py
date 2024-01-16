@@ -5,6 +5,7 @@ import numpy as np
 from myWindow import FilterWin, FilterSettings
 from mySignal import MySignal
 from myFilter import MyButter
+from logger import log_str
 
 DEFAULT_FILTER = MyButter().set_param(5, 0.1).digitalize()
 
@@ -39,6 +40,8 @@ class FBackEnd:
             self.filter_win.orignal_freq.clear()
             self.filter_win.orignal_freq.plot(w, h)
             self.filter_win.main_plot.draw()
+            
+            self.filter_win.log(log_str(f"添加函数: {params[0]}, 参数: {params[0]}"))
         elif command == "filt":
             n, sig = self.signal.calc_value(self.sample_time, self.sample_freq)
             sig_f = self.filter_.filtering(sig)
@@ -50,6 +53,7 @@ class FBackEnd:
                 np.linspace(0, self.sample_freq, len(n)), np.abs(np.fft.fft(sig_f))
             )
             self.filter_win.main_plot.draw()
+            self.filter_win.log(log_str(f"应用滤波"))
 
         elif command == "clear":
             self.signal.clear()
@@ -58,10 +62,12 @@ class FBackEnd:
             self.filter_win.filted_signal.clear()
             self.filter_win.filted_freq.clear()
             self.filter_win.main_plot.draw()
+            self.filter_win.log("", new_log=True)
 
         elif command == "sample info confirm":
             self.sample_time = params[0]
             self.sample_freq = params[1]
+            self.filter_win.log(log_str(f"更新采样设置: 采样时间: {params[0]}, 采样频率: {params[0]}"))
 
         elif command == "filter settings":
             self.filter_settings.show()
