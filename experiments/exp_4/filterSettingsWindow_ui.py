@@ -75,8 +75,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.wp_edit)
 
-        self.horizontalLayout_4.setStretch(0, 1)
+        self.wp_edit2 = QLineEdit(self.centralwidget)
+        self.wp_edit2.setObjectName(u"wp_edit2")
+
+        self.horizontalLayout_4.addWidget(self.wp_edit2)
+
+        self.horizontalLayout_4.setStretch(0, 2)
         self.horizontalLayout_4.setStretch(1, 7)
+        self.horizontalLayout_4.setStretch(2, 7)
 
         self.params_vLayout.addLayout(self.horizontalLayout_4)
 
@@ -92,8 +98,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_6.addWidget(self.ws_edit)
 
-        self.horizontalLayout_6.setStretch(0, 1)
+        self.ws_edit2 = QLineEdit(self.centralwidget)
+        self.ws_edit2.setObjectName(u"ws_edit2")
+
+        self.horizontalLayout_6.addWidget(self.ws_edit2)
+
+        self.horizontalLayout_6.setStretch(0, 2)
         self.horizontalLayout_6.setStretch(1, 7)
+        self.horizontalLayout_6.setStretch(2, 7)
 
         self.params_vLayout.addLayout(self.horizontalLayout_6)
 
@@ -114,22 +126,22 @@ class Ui_MainWindow(object):
 
         self.params_vLayout.addLayout(self.horizontalLayout_7)
 
-        self.as_edit = QHBoxLayout()
-        self.as_edit.setObjectName(u"as_edit")
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
 
-        self.as_edit.addWidget(self.label_2)
+        self.horizontalLayout_5.addWidget(self.label_2)
 
-        self.lineEdit_2 = QLineEdit(self.centralwidget)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.as_edit = QLineEdit(self.centralwidget)
+        self.as_edit.setObjectName(u"as_edit")
 
-        self.as_edit.addWidget(self.lineEdit_2)
+        self.horizontalLayout_5.addWidget(self.as_edit)
 
-        self.as_edit.setStretch(0, 1)
-        self.as_edit.setStretch(1, 7)
+        self.horizontalLayout_5.setStretch(0, 1)
+        self.horizontalLayout_5.setStretch(1, 7)
 
-        self.params_vLayout.addLayout(self.as_edit)
+        self.params_vLayout.addLayout(self.horizontalLayout_5)
 
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
@@ -160,8 +172,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_9.addWidget(self.wn_edit)
 
-        self.horizontalLayout_9.setStretch(0, 1)
+        self.wn_edit2 = QLineEdit(self.centralwidget)
+        self.wn_edit2.setObjectName(u"wn_edit2")
+
+        self.horizontalLayout_9.addWidget(self.wn_edit2)
+
+        self.horizontalLayout_9.setStretch(0, 2)
         self.horizontalLayout_9.setStretch(1, 7)
+        self.horizontalLayout_9.setStretch(2, 7)
 
         self.params_vLayout.addLayout(self.horizontalLayout_9)
 
@@ -172,10 +190,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_10.addWidget(self.label_7)
 
-        self.lineEdit_7 = QLineEdit(self.centralwidget)
-        self.lineEdit_7.setObjectName(u"lineEdit_7")
+        self.fs_edit = QLineEdit(self.centralwidget)
+        self.fs_edit.setObjectName(u"fs_edit")
 
-        self.horizontalLayout_10.addWidget(self.lineEdit_7)
+        self.horizontalLayout_10.addWidget(self.fs_edit)
 
         self.horizontalLayout_10.setStretch(0, 1)
         self.horizontalLayout_10.setStretch(1, 7)
@@ -198,6 +216,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.confirm_button)
 
+        self.cancel_button = QPushButton(self.centralwidget)
+        self.cancel_button.setObjectName(u"cancel_button")
+
+        self.horizontalLayout_3.addWidget(self.cancel_button)
+
 
         self.params_vLayout.addLayout(self.horizontalLayout_3)
 
@@ -209,6 +232,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addLayout(self.plot_gLayout)
 
+        self.horizontalLayout.setStretch(0, 3)
         self.horizontalLayout.setStretch(1, 7)
 
         self.horizontalLayout_2.addLayout(self.horizontalLayout)
@@ -242,8 +266,8 @@ class Ui_MainWindow(object):
         self.filterMode_cBox.setItemText(7, QCoreApplication.translate("MainWindow", u"\u5e03\u83b1\u514b\u66fc\u7a97", None))
         self.filterMode_cBox.setItemText(8, QCoreApplication.translate("MainWindow", u"\u51ef\u6cfd\u7a97", None))
 
-        self.filterType_cBox.setItemText(0, QCoreApplication.translate("MainWindow", u"\u9ad8\u901a", None))
-        self.filterType_cBox.setItemText(1, QCoreApplication.translate("MainWindow", u"\u4f4e\u901a", None))
+        self.filterType_cBox.setItemText(0, QCoreApplication.translate("MainWindow", u"\u4f4e\u901a", None))
+        self.filterType_cBox.setItemText(1, QCoreApplication.translate("MainWindow", u"\u9ad8\u901a", None))
         self.filterType_cBox.setItemText(2, QCoreApplication.translate("MainWindow", u"\u5e26\u901a", None))
         self.filterType_cBox.setItemText(3, QCoreApplication.translate("MainWindow", u"\u5e26\u7ec4", None))
 
@@ -256,5 +280,6 @@ class Ui_MainWindow(object):
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Fs", None))
         self.show_button.setText(QCoreApplication.translate("MainWindow", u"\u9884\u89c8", None))
         self.confirm_button.setText(QCoreApplication.translate("MainWindow", u"\u786e\u5b9a", None))
+        self.cancel_button.setText(QCoreApplication.translate("MainWindow", u"\u53d6\u6d88", None))
     # retranslateUi
 

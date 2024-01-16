@@ -48,12 +48,12 @@ class _MyFilterBase:
     @staticmethod
     def _angular_freq_conv(freq, fs: float = None):
         """将真实频率转化为角频率, return: [w1(pi), w2(pi), ...]"""
-        if isinstance(freq, list):
-            return [_MyFilterBase._angular_freq_conv(i, fs) for i in freq]
+        if isinstance(freq, (list, np.ndarray)):
+            return [_MyFilterBase._angular_freq_conv(i, fs)[0] for i in freq]
         elif isinstance(freq, (float, int)):
             return [freq * 2 / fs if fs else freq]
         else:
-            raise ValueError("频率必须为Num或list[num]")
+            raise ValueError("频率必须为Num或list[Num]")
 
     def set_goal(self, wp, ws, ap, as_, fs=None):
         """设置滤波器指标"""
@@ -85,11 +85,17 @@ class _MyFilterBase:
             return signal.sosfiltfilt(self.sos, sig)
 
     def get_freqz(self, use_BA=False, auto_abs_h=True):
-        if use_BA or not self.sos:
+        if use_BA:
             w, h = signal.freqz(self.b, self.a)
         else:
             w, h = signal.sosfreqz(self.sos)
-        return (w, abs(h) if auto_abs_h else h)
+        return (w / np.pi, abs(h) if auto_abs_h else h)
+
+    def get_zpk(self, use_BA=False):
+        if use_BA:
+            return signal.tf2zpk(self.b, self.a)
+        else:
+            return signal.sos2zpk(self.sos)
 
 
 class MyButter(_MyFilterBase):
@@ -257,7 +263,7 @@ class MyGate(_MyFilterBase):
     def _calc_order_N(min_trans_width, gate="boxcar"):
         gate_dict = {
             "boxcar": 1.6,
-            "hanning": 6.2,
+            "hann": 6.2,
             "hamming": 6.6,
             "blackman": 11,
         }
@@ -273,9 +279,10 @@ class MyGate(_MyFilterBase):
         ]
 
     def _generate_from_signal(self, gate="boxcar", skip_first_stage=False):
-        if not skip_first_stage or self.order_N == 0:
+        if not skip_first_stage or not self.order_N or self.order_N == 0:
             if not skip_first_stage:
                 self.cutoff_Wn = self._calc_cutoff_Wn()
+
             min_trans_width = self._get_min_distance(
                 np.concatenate(([0], self.cutoff_Wn, [1]))
             )
@@ -283,16 +290,17 @@ class MyGate(_MyFilterBase):
                 self.order_N, kaiser_beta = signal.kaiserord(
                     self.stopband_min_atten, min_trans_width
                 )
-                gate = (gate, kaiser_beta)
+                gate = ("kaiser", kaiser_beta)
             else:
                 self.order_N = self._calc_order_N(min_trans_width, gate)
+
         self.b = signal.firwin(
             self.order_N, self.cutoff_Wn, window=gate, pass_zero=self.zero_pass
         )
         self.a, self.sos = 1, None
 
     def digitalize(self, gate="boxcar"):
-        if self._is_param_set():
+        if self.cutoff_Wn:
             self._generate_from_signal(gate, skip_first_stage=True)
         elif self._is_goal_set():
             self._generate_from_signal(gate, skip_first_stage=False)
@@ -300,13 +308,71 @@ class MyGate(_MyFilterBase):
         return self
 
 
-# if __name__ == "__main__":
-#     import matplotlib.pyplot as plt
+class MyFilterGenerator:
+    @staticmethod
+    def create_filter(mode, para):
+        print(f"creating filter: {mode}, {para}")
+        wp1, wp2, ws1, ws2, rp, as_, n_, wn1, wn2, fs = (
+            eval(i) if i and i != "" else None for i in para
+        )
 
-#     f = MyGate().set_goal(100, 150, 1, 30, 1000)
-#     f.digitalize("kaiser")
-#     w, h = f.get_freqz(True)
+        if mode[1] == 0:  # butter
+            filter_ = MyButter()
+        elif mode[1] == 1:  # cheby1
+            filter_ = MyCheby1()
+        elif mode[1] == 2:  # cheby2
+            filter_ = MyCheby2()
+        elif mode[1] == 3:  # ellip
+            filter_ = MyEllip()
+        else:  # 4, 5, 6, 7, 8 : gate
+            filter_ = MyGate()
 
-#     plt.figure()
-#     plt.plot(w, h)
-#     plt.show()
+        if mode[0] == 0:  # wp, ws, rp, as
+            if mode[2] in (0, 1):  # lowpass or highpass
+                filter_.set_goal(wp1, ws1, rp, as_, fs)
+            elif mode[2] in (2, 3):  # bandpass or bandstop
+                filter_.set_goal([wp1, wp2], [ws1, ws2], rp, as_, fs)
+
+        elif mode[0] == 1:  # N, Wn
+            if mode[2] in (0, 1):  # lowpass or highpass
+                filter_.set_param(n_, wn1, fs, zero_pass=mode[2] == 0, ap=rp, as_=as_)
+            if mode[2] in (2, 3):  # lowpass or highpass
+                filter_.set_param(
+                    n_, [wn1, wn2], fs, zero_pass=mode[2] == 3, ap=rp, as_=as_
+                )
+
+        if mode[1] in (0, 1, 2, 3):
+            filter_.digitalize()
+        else:
+            gate = {4: "boxcar", 5: "hann", 6: "hamming", 7: "blackman", 8: "kaiser"}[
+                mode[1]
+            ]
+            filter_.digitalize(gate)
+        return filter_
+
+
+if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
+    # f = MyGate().set_goal([100], [150], 1, 30, 1000)
+    # f = MyButter().set_goal(0.2, 0.3, 1, 30)
+    mode = (0, 0, 2)
+    para = (
+        "200",
+        "500",
+        "300",
+        "400",
+        "1",
+        "30",
+        "",
+        "",
+        "",
+        "2000"
+        # wp1, wp2, ws1, ws2, rp, as_, n_, wn1, wn2, fs
+    )
+    f = MyFilterGenerator.create_filter(mode, para)
+    w, h = f.get_freqz(True)
+
+    plt.figure()
+    plt.plot(w, h)
+    plt.show()

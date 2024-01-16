@@ -1,10 +1,11 @@
 import sys
 from PySide6.QtWidgets import QApplication
+import matplotlib.pyplot as plt
 import numpy as np
 
 from myWindow import FilterWin, FilterSettings
 from mySignal import MySignal
-from myFilter import MyButter
+from myFilter import MyButter, MyFilterGenerator
 from logger import log_str
 
 DEFAULT_FILTER = MyButter().set_param(5, 0.1).digitalize()
@@ -15,7 +16,7 @@ class FBackEnd:
         self.app = QApplication(sys.argv)
         self.filter_ = filter_
         self.signal = MySignal()
-        
+
         self.filter_win = FilterWin()
         self.filter_win.set_call(self.filter_win_call)
 
@@ -27,7 +28,42 @@ class FBackEnd:
         sys.exit(self.app.exec())
 
     def filter_settings_call(self, command, params=None):
-        pass
+        if command == "cancel":
+            self.filter_settings.close()
+        elif command == "confirm filter":
+            mode, para = params
+            self.filter_ = MyFilterGenerator.create_filter(mode, para)
+            self.filter_settings.close()
+        elif command == "show filter":
+            mode, para = params
+            temp_filter = MyFilterGenerator.create_filter(mode, para)
+            w, h = temp_filter.get_freqz(auto_abs_h=False)
+
+            """滤波器零极点"""
+            z, p, _ = temp_filter.get_zpk()
+            self.filter_settings.ax_filter_circ.clear()
+
+            self.filter_settings.ax_filter_circ.add_artist(
+                plt.Circle((0, 0), 1, fill=False)
+            )
+            lim = max(max(z), max(p), 1) + 1
+            self.filter_settings.ax_filter_circ.set_xlim([-lim, lim])
+            self.filter_settings.ax_filter_circ.set_ylim([-lim, lim])
+            for i in z:
+                self.filter_settings.ax_filter_circ.plot(np.real(i), np.imag(i), "o")
+            for i in p:
+                self.filter_settings.ax_filter_circ.plot(np.real(i), np.imag(i), "x")
+
+            """滤波器幅频响应"""
+            self.filter_settings.ax_filter_freqz.clear()
+            self.filter_settings.ax_filter_freqz.plot(w, np.abs(h))
+
+            """滤波器相频响应"""
+            self.filter_settings.ax_filter_angle.clear()
+            self.filter_settings.ax_filter_angle.plot(w, np.angle(h))
+
+            """显示"""
+            self.filter_settings.mainPlot.draw()
 
     def filter_win_call(self, command, params=None):
         if command == "add to":
@@ -40,8 +76,8 @@ class FBackEnd:
             self.filter_win.orignal_freq.clear()
             self.filter_win.orignal_freq.plot(w, h)
             self.filter_win.main_plot.draw()
-            
-            self.filter_win.log(log_str(f"添加函数: {params[0]}, 参数: {params[0]}"))
+
+            self.filter_win.log(log_str(f"添加函数: {params[0]}, 参数: {params[1]}"))
         elif command == "filt":
             n, sig = self.signal.calc_value(self.sample_time, self.sample_freq)
             sig_f = self.filter_.filtering(sig)
@@ -67,7 +103,9 @@ class FBackEnd:
         elif command == "sample info confirm":
             self.sample_time = params[0]
             self.sample_freq = params[1]
-            self.filter_win.log(log_str(f"更新采样设置: 采样时间: {params[0]}, 采样频率: {params[0]}"))
+            self.filter_win.log(
+                log_str(f"更新采样设置: 采样时间: {params[0]}, 采样频率: {params[1]}")
+            )
 
         elif command == "filter settings":
             self.filter_settings.show()
