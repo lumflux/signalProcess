@@ -41,12 +41,13 @@ class FBackEnd:
 
             """滤波器零极点"""
             z, p, _ = temp_filter.get_zpk()
+            
             self.filter_settings.ax_filter_circ.clear()
 
             self.filter_settings.ax_filter_circ.add_artist(
                 plt.Circle((0, 0), 1, fill=False)
             )
-            lim = max(max(z), max(p), 1) + 1
+            lim = 1.5
             self.filter_settings.ax_filter_circ.set_xlim([-lim, lim])
             self.filter_settings.ax_filter_circ.set_ylim([-lim, lim])
             for i in z:
