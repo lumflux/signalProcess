@@ -3,28 +3,18 @@ from mainWindow_ui import Ui_MainWindow
 
 from myPlot import mainPlot
 
-"""
-class FilterWin(QMainWindow):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.mainPlot = mainPlot(self)
-        self.initUI()
-
-    def initUI(self):
-        self.ui = Ui_FiltWin()
-        self.ui.setupUi(self)
-
-        self.ui.mainPlot_gLayout.addWidget(self.mainPlot.get_toolbar())
-        self.ui.mainPlot_gLayout.addWidget(self.mainPlot.get_canvas())
-"""
-
 
 class mainWin(QMainWindow):
     def __init__(self, call=None, parent=None):
         super().__init__(parent)
         self.call: function = call
-        self.main_plot = mainPlot(self)
-        self.main_axe = self.main_plot.get_axe(self.main_plot.get_grid()[:, :])
+        self.main_plot = mainPlot(self, 2, 2)
+        self.filter_axe = self.main_plot.get_axe(self.main_plot.get_grid()[0, 0])
+        self.signal_axe = self.main_plot.get_axe(self.main_plot.get_grid()[0, 1])
+        self.signal_freq_axe = self.main_plot.get_axe(self.main_plot.get_grid()[1, 0])
+        self.signal_freq_filt_axe = self.main_plot.get_axe(
+            self.main_plot.get_grid()[1, 1]
+        )
 
         self._init_UI()
         self._set_connect()

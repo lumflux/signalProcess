@@ -6,7 +6,8 @@ class MatLoader:
         self.eeg_signal = None
 
     def load_eeg(self, file_path):
-        self.eeg_signal = scio.loadmat(file_path)["x"]
+        self.data_len = 3500 - 1500
+        self.eeg_signal = scio.loadmat(file_path)["x"][:, :, :]
         return self
 
 
