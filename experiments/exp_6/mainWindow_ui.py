@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QHeaderView,
     QMainWindow, QMenuBar, QSizePolicy, QStatusBar,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+    QTableWidget, QTableWidgetItem, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -28,23 +28,21 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout_2 = QHBoxLayout(self.centralwidget)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setObjectName(u"verticalLayout")
         self.mainTable = QTableWidget(self.centralwidget)
         self.mainTable.setObjectName(u"mainTable")
+        self.mainTable.setLayoutDirection(Qt.LeftToRight)
+        self.mainTable.horizontalHeader().setCascadingSectionResizes(False)
+        self.mainTable.verticalHeader().setCascadingSectionResizes(False)
 
-        self.verticalLayout.addWidget(self.mainTable)
-
-
-        self.horizontalLayout_2.addLayout(self.verticalLayout)
+        self.horizontalLayout_2.addWidget(self.mainTable)
 
         self.mainPlot_gLayout = QGridLayout()
         self.mainPlot_gLayout.setObjectName(u"mainPlot_gLayout")
 
         self.horizontalLayout_2.addLayout(self.mainPlot_gLayout)
 
-        self.horizontalLayout_2.setStretch(0, 4)
-        self.horizontalLayout_2.setStretch(1, 4)
+        self.horizontalLayout_2.setStretch(0, 2)
+        self.horizontalLayout_2.setStretch(1, 7)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")

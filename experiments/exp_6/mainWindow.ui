@@ -14,13 +14,19 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="4,4">
+   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,7">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QTableWidget" name="mainTable"/>
-      </item>
-     </layout>
+     <widget class="QTableWidget" name="mainTable">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <attribute name="horizontalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
+     </widget>
     </item>
     <item>
      <layout class="QGridLayout" name="mainPlot_gLayout"/>
