@@ -18,7 +18,7 @@ class FBackEnd:
     def __init__(self) -> None:
         self.app = QApplication(sys.argv)
         self.filter_ = (
-            MyButter().set_goal([0.5, 30], [0.3, 31], 0.25, 30, 1000).digitalize()
+            MyButter().set_goal([0.5, 30], [0.3, 31], 0.25, 20, 1000).digitalize()
         )
         self.main_win = mainWin()
         self.signal_ = MatLoader().load(
@@ -29,9 +29,7 @@ class FBackEnd:
         self.main_win.filter_freq_axe.plot(w, h)
         z, p, _ = self.filter_.get_zpk()
 
-        self.main_win.filter_zpk_axe.add_artist(
-            plt.Circle((0, 0), 1, fill=False)
-        )
+        self.main_win.filter_zpk_axe.add_artist(plt.Circle((0, 0), 1, fill=False))
         lim = 1.5
         self.main_win.filter_zpk_axe.set_xlim([-lim, lim])
         self.main_win.filter_zpk_axe.set_ylim([-lim, lim])
@@ -47,17 +45,21 @@ class FBackEnd:
         sig02_FCz_ave = np.zeros(701)
         sig02_Cz_ave = np.zeros(701)
         for i in range(100):
-            mean200 = np.mean(self.signal_.sig[0][FCz, :200, i])
-            sig01_FCz_ave += self.signal_.sig[0][FCz, :, i] - mean200
+            sig = self.filter_.filtering(self.signal_.sig[0][FCz, :, i])
+            mean200 = np.mean(sig[:200])
+            sig01_FCz_ave += sig - mean200
 
-            mean200 = np.mean(self.signal_.sig[0][Cz, :200, i])
-            sig01_Cz_ave += self.signal_.sig[0][Cz, :, i] - mean200
+            sig = self.filter_.filtering(self.signal_.sig[0][Cz, :, i])
+            mean200 = np.mean(sig[:200])
+            sig01_Cz_ave += sig - mean200
 
-            mean200 = np.mean(self.signal_.sig[1][FCz, :200, i])
-            sig02_FCz_ave += self.signal_.sig[1][FCz, :, i] - mean200
+            sig = self.filter_.filtering(self.signal_.sig[1][FCz, :, i])
+            mean200 = np.mean(sig[:200])
+            sig02_FCz_ave += sig - mean200
 
-            mean200 = np.mean(self.signal_.sig[1][Cz, :200, i])
-            sig02_Cz_ave += self.signal_.sig[1][Cz, :, i] - mean200
+            sig = self.filter_.filtering(self.signal_.sig[1][Cz, :, i])
+            mean200 = np.mean(sig[:200])
+            sig02_Cz_ave += sig - mean200
 
         self.main_win.sig01_FCz_axe.plot(np.linspace(0, 0.7, 701), sig01_FCz_ave / 701)
         self.main_win.sig01_Cz_axe.plot(np.linspace(0, 0.7, 701), sig01_Cz_ave / 701)
