@@ -30,7 +30,7 @@ class FBackEnd:
         w, h = self.filter_.get_freqz()
         self.main_win.filter_freq_axe.plot(w, h)
         self.main_win.filter_freq_axe.set_title("filter freqz")
-        
+
         z, p, _ = self.filter_.get_zpk()
         self.main_win.filter_zpk_axe.add_artist(plt.Circle((0, 0), 1, fill=False))
         lim = 1.5
@@ -69,12 +69,30 @@ class FBackEnd:
         self.main_win.sig01_Cz_axe.plot(np.linspace(0, 0.7, 701), sig01_Cz_ave / 701)
         self.main_win.sig02_FCz_axe.plot(np.linspace(0, 0.7, 701), sig02_FCz_ave / 701)
         self.main_win.sig02_Cz_axe.plot(np.linspace(0, 0.7, 701), sig02_Cz_ave / 701)
-        
+
+        self.main_win.sig01_FCz_freq_axe.plot(
+            np.linspace(0, 100, 701), np.fft.fft(sig01_FCz_ave / 701)
+        )
+        self.main_win.sig01_Cz_freq_axe.plot(
+            np.linspace(0, 100, 701), np.fft.fft(sig01_Cz_ave / 701)
+        )
+        self.main_win.sig02_FCz_freq_axe.plot(
+            np.linspace(0, 100, 701), np.fft.fft(sig02_FCz_ave / 701)
+        )
+        self.main_win.sig02_Cz_freq_axe.plot(
+            np.linspace(0, 100, 701), np.fft.fft(sig02_Cz_ave / 701)
+        )
+
         self.main_win.sig01_FCz_axe.set_title("sig01 FCz")
         self.main_win.sig01_Cz_axe.set_title("sig01 Cz")
         self.main_win.sig02_FCz_axe.set_title("sig02 FCz")
         self.main_win.sig02_Cz_axe.set_title("sig02 Cz")
 
+        self.main_win.sig01_FCz_freq_axe.set_title("sig01 FCz Freq")
+        self.main_win.sig01_Cz_freq_axe.set_title("sig01 Cz Freq")
+        self.main_win.sig02_FCz_freq_axe.set_title("sig02 FCz Freq")
+        self.main_win.sig02_Cz_freq_axe.set_title("sig02 Cz Freq")
+        
         self.main_win.main_plot.draw()
 
     def run(self):

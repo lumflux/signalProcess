@@ -8,7 +8,7 @@ lambd = 4
 d = 0.5 * lambd
 
 signalGain = 10
-noiseRate = 0.1
+noiseRate = 0
 
 theta1 = np.pi / 6  # 期望信号入射角度
 theta2 = np.pi * 2 / 9  # 干扰信号入射角度
