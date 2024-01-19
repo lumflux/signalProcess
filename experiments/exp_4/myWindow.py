@@ -109,21 +109,22 @@ class FilterSettings(QMainWindow):
         self.filter_mode = 0
         self.filter_type = 0
 
-        self.mainPlot = mainPlot(self, 4, 2)
+        self.main_plot = mainPlot(self, 4, 2)
 
-        self.ax_filter_circ = self.mainPlot.get_axe(self.mainPlot.get_grid()[1:3, 0])
-        self.ax_filter_freqz = self.mainPlot.get_axe(self.mainPlot.get_grid()[0:2, 1])
-        self.ax_filter_angle = self.mainPlot.get_axe(self.mainPlot.get_grid()[2:4, 1])
+        self.ax_filter_circ = self.main_plot.get_axe(self.main_plot.get_grid()[1:3, 0])
+        self.ax_filter_freqz = self.main_plot.get_axe(self.main_plot.get_grid()[0:2, 1])
+        self.ax_filter_angle = self.main_plot.get_axe(self.main_plot.get_grid()[2:4, 1])
 
         self._init_UI()
         self._set_connect()
+        self._mode_change_callback()
 
     def _init_UI(self):
         self.ui = Ui_FilterSettings()
         self.ui.setupUi(self)
 
-        self.ui.plot_gLayout.addWidget(self.mainPlot.get_toolbar())
-        self.ui.plot_gLayout.addWidget(self.mainPlot.get_canvas())
+        self.ui.plot_gLayout.addWidget(self.main_plot.get_toolbar())
+        self.ui.plot_gLayout.addWidget(self.main_plot.get_canvas())
 
     def _set_connect(self):
         self.ui.generateMode_cBox.activated.connect(self._generate_mode_changed)

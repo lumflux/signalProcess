@@ -19,9 +19,11 @@ class FBackEnd:
 
         self.filter_win = FilterWin()
         self.filter_win.set_call(self.filter_win_call)
+        self.filter_win.main_plot.fig.tight_layout()
 
         self.filter_settings = FilterSettings()
         self.filter_settings.set_call(self.filter_settings_call)
+        self.filter_settings.main_plot.fig.tight_layout()
 
     def run(self):
         self.filter_win.show()
@@ -54,17 +56,23 @@ class FBackEnd:
                 self.filter_settings.ax_filter_circ.plot(np.real(i), np.imag(i), "o")
             for i in p:
                 self.filter_settings.ax_filter_circ.plot(np.real(i), np.imag(i), "x")
+            self.filter_settings.ax_filter_circ.set_title("zpk")
+            
 
             """滤波器幅频响应"""
             self.filter_settings.ax_filter_freqz.clear()
             self.filter_settings.ax_filter_freqz.plot(w, np.abs(h))
+            self.filter_settings.ax_filter_freqz.set_title("filter freqz")
+            self.filter_settings.ax_filter_freqz.set_xlabel("frequence(Hz)")
 
             """滤波器相频响应"""
             self.filter_settings.ax_filter_angle.clear()
             self.filter_settings.ax_filter_angle.plot(w, np.angle(h))
+            self.filter_settings.ax_filter_angle.set_title("filter phase")
+            self.filter_settings.ax_filter_angle.set_xlabel("frequence(Hz)")
 
             """显示"""
-            self.filter_settings.mainPlot.draw()
+            self.filter_settings.main_plot.draw()
 
     def filter_win_call(self, command, params=None):
         if command == "add to":
@@ -74,8 +82,13 @@ class FBackEnd:
 
             self.filter_win.orignal_signal.clear()
             self.filter_win.orignal_signal.plot(n, sig)
+            self.filter_win.orignal_signal.set_title("orignal signal")
+            self.filter_win.orignal_signal.set_xlabel("time(s)")
+            
             self.filter_win.orignal_freq.clear()
             self.filter_win.orignal_freq.plot(w, h)
+            self.filter_win.orignal_freq.set_title("orignal signal freq")
+            self.filter_win.orignal_freq.set_xlabel("frequence(Hz)")
             self.filter_win.main_plot.draw()
 
             self.filter_win.log(log_str(f"添加函数: {params[0]}, 参数: {params[1]}"))
@@ -85,10 +98,15 @@ class FBackEnd:
 
             self.filter_win.filted_signal.clear()
             self.filter_win.filted_signal.plot(n, sig_f)
+            self.filter_win.filted_signal.set_title("filted signal")
+            self.filter_win.filted_signal.set_xlabel("time(s)")
+            
             self.filter_win.filted_freq.clear()
             self.filter_win.filted_freq.plot(
                 np.linspace(0, self.sample_freq, len(n)), np.abs(np.fft.fft(sig_f))
             )
+            self.filter_win.filted_freq.set_title("filted signal freq")
+            self.filter_win.filted_freq.set_xlabel("frequence(Hz)")
             self.filter_win.main_plot.draw()
             self.filter_win.log(log_str(f"应用滤波"))
 

@@ -36,13 +36,17 @@ class FBackEnd:
         sig_freq_filt = np.abs(np.fft.fft(self.filter_.filtering(self.signal_.sig)))
         sig_freq_space = np.linspace(0, 1000, 240_000)
         self.main_win.signal_freq_axe.semilogy(sig_freq_space, sig_freq)
+        self.main_win.signal_freq_axe.set_title("orignal signal freq")
         self.main_win.signal_freq_filt_axe.semilogy(sig_freq_space, sig_freq_filt)
+        self.main_win.signal_freq_filt_axe.set_title("filted signal freq")
 
     def _show_filter(self):
         w, h = self.filter_.get_freqz()
         self.main_win.filter_freq_axe.plot(w, h)
-        z, p, _ = self.filter_.get_zpk()
+        self.main_win.filter_freq_axe.set_title("filter freqz")
+        self.main_win.filter_freq_axe.set_xlabel("frequence(Hz)")
 
+        z, p, _ = self.filter_.get_zpk()
         self.main_win.filter_zpk_axe.add_artist(plt.Circle((0, 0), 1, fill=False))
         lim = 1.5
         self.main_win.filter_zpk_axe.set_xlim([-lim, lim])
@@ -51,30 +55,31 @@ class FBackEnd:
             self.main_win.filter_zpk_axe.plot(np.real(i), np.imag(i), "o")
         for i in p:
             self.main_win.filter_zpk_axe.plot(np.real(i), np.imag(i), "x")
+        self.main_win.filter_zpk_axe.set_title("filter zpk")
 
     def _show_heartbeat(self):
-        """时域法"""
         beat_time = []
         beat_time2 = []
         beat_freq = []
-        
+
         signal_filt = self.filter_.filtering(self.signal_.sig)
         for time_start in range(240_000 - 5000):
             signal_slice = signal_filt[time_start : time_start + 5000]
             peaks, _ = signal.find_peaks(signal_slice, height=0.25)
             beat_time.append(len(peaks) / 5 * 60)
             beat_time2.append(60 / ((peaks[-1] - peaks[0]) / (len(peaks) - 1) / 1000))
-            
+
             signal_slice_freq = np.abs(np.fft.fft(signal_slice))[:30]
-            # self.main_win.heartbeat_time_axe.plot(np.linspace(0, 1000, 5000), signal_slice_freq)
-            # break
-            beat_freq.append(60 * ((np.argmax(signal_slice_freq) ) / 5))
+            beat_freq.append(60 * ((np.argmax(signal_slice_freq)) / 5))
+            if time_start % 1000 == 0:
+                print(f"done: {time_start} in {240_000 - 5000}")
         beat_x = np.linspace(0, 240 - 5, 240_000 - 5000)
         self.main_win.heartbeat_time_axe.plot(beat_x, beat_time, label="number")
         self.main_win.heartbeat_time_axe.plot(beat_x, beat_time2, label="delta T")
+        self.main_win.heartbeat_time_axe.set_title("heartbeat in time")
         self.main_win.heartbeat_freq_axe.plot(beat_x, beat_freq)
+        self.main_win.heartbeat_freq_axe.set_title("heartbeat in freq")
         self.main_win.heartbeat_time_axe.legend()
-        """频域法"""
 
     def run(self):
         self.main_win.show()

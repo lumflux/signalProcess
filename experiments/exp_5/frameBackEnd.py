@@ -22,6 +22,7 @@ class FBackEnd:
         self.main_win.log(log_str(f"设置试次: {self.sig_group + 1}"))
         self.main_win.log(log_str(f"设置导联: {self.sig_channel + 1}"))
 
+        self.main_win.main_plot.fig.tight_layout()
         self._update_main_plot()
         self._recognize()
 
@@ -30,13 +31,18 @@ class FBackEnd:
         w, h = self.filter_.get_freqz()
         self.main_win.filter_axe.clear()
         self.main_win.filter_axe.plot(w, h)
+        self.main_win.filter_axe.set_title("filter freqz")
+        self.main_win.filter_axe.set_xlabel("frequence(Hz)")
 
         self.main_win.signal_axe.clear()
         self.main_win.signal_axe.plot(
             np.linspace(1.5, 3.5, 2000),
             self.signal_.eeg_signal[self.sig_channel, 1500:, self.sig_group],
         )
-
+        self.main_win.signal_axe.set_title("signal")
+        self.main_win.signal_axe.set_xlabel("time(s)")
+        
+        
         self.main_win.signal_freq_axe.clear()
         self.main_win.signal_freq_axe.plot(
             np.linspace(1.5, 1000, 2000),
@@ -48,6 +54,9 @@ class FBackEnd:
                 )
             ),
         )
+        self.main_win.signal_freq_axe.set_title("signal freq")
+        self.main_win.signal_freq_axe.set_xlabel("frequence(Hz)")
+
 
         self.main_win.signal_freq_filt_axe.clear()
         self.main_win.signal_freq_filt_axe.plot(
@@ -64,6 +73,9 @@ class FBackEnd:
                 )
             ),
         )
+        self.main_win.signal_freq_filt_axe.set_title("filted signal freq")
+        self.main_win.signal_freq_filt_axe.set_xlabel("frequence(Hz)")
+        
         self.main_win.main_plot.draw()
 
     def run(self):
@@ -98,7 +110,7 @@ class FBackEnd:
         max_2f_freq = (max_2f_idx + 30) / 2
 
         self.main_win.signal_freq_filt_axe.vlines(
-            [max_1f_freq, max_2f_freq], 0, 10, "red"
+            [max_1f_freq, max_2f_freq], 3, 6, "red"
         )
         self.main_win.main_plot.draw()
         print(max_1f_freq, max_2f_freq)

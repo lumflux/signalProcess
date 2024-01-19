@@ -25,10 +25,13 @@ class FBackEnd:
             r"D:\code\signalProcess\2023信号与信息处理课程设计\实验数据文件\实验七\脑电ERP\脑电ERP"
         )
 
+        self.main_win.main_plot.fig.tight_layout()
+
         w, h = self.filter_.get_freqz()
         self.main_win.filter_freq_axe.plot(w, h)
+        self.main_win.filter_freq_axe.set_title("filter freqz")
+        
         z, p, _ = self.filter_.get_zpk()
-
         self.main_win.filter_zpk_axe.add_artist(plt.Circle((0, 0), 1, fill=False))
         lim = 1.5
         self.main_win.filter_zpk_axe.set_xlim([-lim, lim])
@@ -37,6 +40,7 @@ class FBackEnd:
             self.main_win.filter_zpk_axe.plot(np.real(i), np.imag(i), "o")
         for i in p:
             self.main_win.filter_zpk_axe.plot(np.real(i), np.imag(i), "x")
+        self.main_win.filter_zpk_axe.set_title("filter zpk")
 
         FCz, Cz = 0, 1
 
@@ -65,6 +69,11 @@ class FBackEnd:
         self.main_win.sig01_Cz_axe.plot(np.linspace(0, 0.7, 701), sig01_Cz_ave / 701)
         self.main_win.sig02_FCz_axe.plot(np.linspace(0, 0.7, 701), sig02_FCz_ave / 701)
         self.main_win.sig02_Cz_axe.plot(np.linspace(0, 0.7, 701), sig02_Cz_ave / 701)
+        
+        self.main_win.sig01_FCz_axe.set_title("sig01 FCz")
+        self.main_win.sig01_Cz_axe.set_title("sig01 Cz")
+        self.main_win.sig02_FCz_axe.set_title("sig02 FCz")
+        self.main_win.sig02_Cz_axe.set_title("sig02 Cz")
 
         self.main_win.main_plot.draw()
 

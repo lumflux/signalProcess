@@ -25,16 +25,19 @@ class FBackEnd:
             r"D:\code\signalProcess\2023信号与信息处理课程设计\实验数据文件\实验五六\本科课设数据及说明-2021\sub-data\eyedata"
         )
 
+        self.main_win.main_plot.fig.tight_layout()
         for i in range(10):
             data_l = np.array(self.signal_.calib["L"][i, :, :])
             center_x, center_y = self.km_l.add_center(data_l.T, i + 1)
             self.main_win.map_l_axe.plot(data_l[0], data_l[1], "x")
             self.main_win.map_l_axe.plot(center_x, center_y, "o")
+            self.main_win.map_l_axe.set_title("center_L")
 
             data_r = np.array(self.signal_.calib["R"][i, :, :])
             center_x, center_y = self.km_r.add_center(data_r.T, i + 1)
             self.main_win.map_r_axe.plot(data_r[0], data_r[1], "x")
             self.main_win.map_r_axe.plot(center_x, center_y, "o")
+            self.main_win.map_r_axe.set_title("center_R")
 
         use_dots = 40
         for i in range(20):
@@ -140,6 +143,8 @@ class FBackEnd:
         self.main_win.acc_axe.plot((10, 20, 30, 40), correct_nums_r, label="r")
         self.main_win.acc_axe.plot((10, 20, 30, 40), correct_nums_both, label="both")
         self.main_win.acc_axe.legend()
+        self.main_win.acc_axe.set_title("accuracy")
+        self.main_win.acc_axe.set_xlabel("dots")
 
     def run(self):
         self.main_win.show()

@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 unitNum = 12  # 天线数量
 sigLen = 100  # 信号点数
 f = 0.25
-lambd = 1
+lambd = 4
 d = 0.5 * lambd
 
-signalGain = 1
-noiseRate = 0
+signalGain = 10
+noiseRate = 0.1
 
 theta1 = np.pi / 6  # 期望信号入射角度
 theta2 = np.pi * 2 / 9  # 干扰信号入射角度
