@@ -139,9 +139,15 @@ class FBackEnd:
             correct_nums_l.append(correct_num_l * 5)
             correct_nums_r.append(correct_num_r * 5)
             correct_nums_both.append(correct_num_both * 5)
-        self.main_win.acc_axe.plot((10, 20, 30, 40), correct_nums_l, label="l")
-        self.main_win.acc_axe.plot((10, 20, 30, 40), correct_nums_r, label="r")
-        self.main_win.acc_axe.plot((10, 20, 30, 40), correct_nums_both, label="both")
+            
+        bar_x = np.array([10, 20, 30, 40])
+        width = 1.5
+        d_width = 0
+        self.main_win.acc_axe.bar(bar_x + (width + d_width) * -1, correct_nums_l, label="l", width=width)
+        self.main_win.acc_axe.bar(bar_x + (width + d_width) * 0, correct_nums_r, label="r", width=width)
+        self.main_win.acc_axe.bar(bar_x + (width + d_width) * 1, correct_nums_both, label="both", width=width)        
+        self.main_win.acc_axe.set_ylim(90, 105)
+        self.main_win.acc_axe.set_xticks(bar_x)
         self.main_win.acc_axe.legend()
         self.main_win.acc_axe.set_title("accuracy")
         self.main_win.acc_axe.set_xlabel("dots")

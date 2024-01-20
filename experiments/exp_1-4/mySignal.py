@@ -18,8 +18,8 @@ class MySignal:
 
     def add_formula(self, params):
         if params[0] == "file":
-            sig = scio.loadmat(params[1])["s"][0]
-            self.forms.append("file", sig)
+            sig = scio.loadmat(params[1])["s"]
+            self.forms.append(("file", sig))
         else:
             self.forms.append(params)
 
